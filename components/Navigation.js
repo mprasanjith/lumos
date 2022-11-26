@@ -1,6 +1,11 @@
+import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 
 const Navigation = () => {
+  const { isLoaded, isSignedIn, signOut } = useAuth();
+
+  if (!isLoaded) return null;
+
   return (
     <header className="flex justify-between items-center py-4 md:py-8">
       <Link href="/">
@@ -41,9 +46,9 @@ const Navigation = () => {
             fill="currentColor"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             />
           </svg>
         </a>
@@ -61,13 +66,24 @@ const Navigation = () => {
         </a>
       </nav>
 
-      <div className="hidden lg:flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-2.5 -ml-8">
-        <Link href="/login">
+      {!isSignedIn ? (
+        <div className="hidden lg:flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-2.5 -ml-8">
+          <Link href="/login">
+            <a className="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">
+              Login
+            </a>
+          </Link>
+        </div>
+      ) : (
+        <div
+          onClick={signOut}
+          className="hidden lg:flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-2.5 -ml-8"
+        >
           <a className="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">
-            Login
+            Logout
           </a>
-        </Link>
-      </div>
+        </div>
+      )}
 
       <button
         type="button"
@@ -80,9 +96,9 @@ const Navigation = () => {
           fill="currentColor"
         >
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            clip-rule="evenodd"
+            clipRule="evenodd"
           />
         </svg>
         Menu
