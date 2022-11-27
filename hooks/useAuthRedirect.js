@@ -3,9 +3,14 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const paths = {
-  google: ["/dashboard/videos"],
-  microsoft: ["/dashboard/patientdata"],
-  github: ["/dashboard/news", "/dashboard/patientdata"],
+  google: ["/dashboard/videos", "/dashboard/reports/patient"],
+  microsoft: ["/dashboard/patientdata", "/dashboard/reports/patient"],
+  github: [
+    "/dashboard/news",
+    "/dashboard/patientdata",
+    "/dashboard/reports/map",
+    "/dashboard/reports/patient",
+  ],
 };
 
 const useAuthRedirect = () => {
@@ -23,8 +28,6 @@ const useAuthRedirect = () => {
     const accounts = user.verifiedExternalAccounts;
     const loggedAccount = accounts ? accounts[0] : null;
     if (!loggedAccount) return;
-
-    console.log(loggedAccount);
 
     if (
       router.pathname.startsWith("/dashboard") &&

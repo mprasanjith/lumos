@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import useAuthRedirect from "../../hooks/useAuthRedirect";
+import useAuthRedirect from "../../../../hooks/useAuthRedirect";
 
 const PatientData = () => {
   useAuthRedirect();
@@ -17,7 +17,7 @@ const PatientData = () => {
           </h2>
 
           <p className="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto">
-            Download patient datasets easily.
+            Explore patient data for patient {}
           </p>
         </div>
 

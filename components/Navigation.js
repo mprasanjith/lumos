@@ -6,14 +6,25 @@ const Navigation = () => {
   const { isLoaded, isSignedIn, signOut } = useAuth();
   const { user } = useUser();
 
-  const isResearcher = useMemo(() => {
-    if (!user) return false;
+  const loggedAccount = useMemo(() => {
+    if (!user) return null;
     const accounts = user.verifiedExternalAccounts;
     const loggedAccount = accounts ? accounts[0] : null;
-    if (!loggedAccount) return false;
-
-    return loggedAccount.provider === "github" ? true : false;
+    return loggedAccount;
   }, [user]);
+
+  const isResearcher = useMemo(
+    () => (loggedAccount?.provider === "github" ? true : false),
+    [loggedAccount]
+  );
+  const isPatient = useMemo(
+    () => (loggedAccount?.provider === "google" ? true : false),
+    [loggedAccount]
+  );
+  const isDoctor = useMemo(
+    () => (loggedAccount?.provider === "microsoft" ? true : false),
+    [loggedAccount]
+  );
 
   if (!isLoaded) return null;
 
@@ -40,20 +51,55 @@ const Navigation = () => {
 
       {isResearcher && (
         <nav className="hidden lg:flex gap-12">
+          <Link href="/dashboard/news">
+            <a className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">
+              Newsfeed
+            </a>
+          </Link>
+          <Link href="/dashboard/patientdata">
+            <a className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">
+              Datasets
+            </a>
+          </Link>
+          <Link href="/dashboard/reports/map">
+            <a className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">
+              Reports
+            </a>
+          </Link>
+        </nav>
+      )}
+
+      {isPatient && (
+        <nav className="hidden lg:flex gap-12">
+          <Link href="/dashboard/videos">
+            <a className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">
+              Videos
+            </a>
+          </Link>
+          <Link href="/dashboard/reports/me">
+            <a className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">
+              Reports
+            </a>
+          </Link>
+        </nav>
+      )}
+
+      {isDoctor && (
+        <nav className="hidden lg:flex gap-12">
           <Link href="/dashboard/patientdata">
             <a
               href="#"
               className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100"
             >
-              Patient Data
+              Datasets
             </a>
           </Link>
-          <Link href="/dashboard/news">
+          <Link href="/dashboard/reports">
             <a
               href="#"
               className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100"
             >
-              Newsfeed
+              Reports
             </a>
           </Link>
         </nav>
