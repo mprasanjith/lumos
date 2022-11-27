@@ -1,8 +1,19 @@
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { useMemo } from "react";
 
 const Navigation = () => {
   const { isLoaded, isSignedIn, signOut } = useAuth();
+  const { user } = useUser();
+
+  const isResearcher = useMemo(() => {
+    if (!user) return false;
+    const accounts = user.verifiedExternalAccounts;
+    const loggedAccount = accounts ? accounts[0] : null;
+    if (!loggedAccount) return false;
+
+    return loggedAccount.provider === "github" ? true : false;
+  }, [user]);
 
   if (!isLoaded) return null;
 
@@ -27,44 +38,26 @@ const Navigation = () => {
         </a>
       </Link>
 
-      <nav className="hidden lg:flex gap-12">
-        <a
-          href="#"
-          className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100"
-        >
-          Home
-        </a>
-        <a
-          href="#"
-          className="inline-flex items-center text-indigo-500 text-lg font-semibold gap-1"
-        >
-          Features
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-gray-800"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </a>
-        <a
-          href="#"
-          className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100"
-        >
-          Pricing
-        </a>
-        <a
-          href="#"
-          className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100"
-        >
-          About
-        </a>
-      </nav>
+      {isResearcher && (
+        <nav className="hidden lg:flex gap-12">
+          <Link href="/dashboard/patientdata">
+            <a
+              href="#"
+              className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100"
+            >
+              Patient Data
+            </a>
+          </Link>
+          <Link href="/dashboard/news">
+            <a
+              href="#"
+              className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100"
+            >
+              Newsfeed
+            </a>
+          </Link>
+        </nav>
+      )}
 
       {!isSignedIn ? (
         <div className="hidden lg:flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-2.5 -ml-8">

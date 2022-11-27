@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const paths = {
   google: ["/dashboard/videos"],
-  twitter: ["/dashboard/patientdata"],
+  microsoft: ["/dashboard/patientdata"],
   github: ["/dashboard/news", "/dashboard/patientdata"],
 };
 
@@ -23,6 +23,8 @@ const useAuthRedirect = () => {
     const accounts = user.verifiedExternalAccounts;
     const loggedAccount = accounts ? accounts[0] : null;
     if (!loggedAccount) return;
+
+    console.log(loggedAccount);
 
     if (
       router.pathname.startsWith("/dashboard") &&
