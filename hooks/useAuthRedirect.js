@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const paths = {
-  google: "/dashboard/videos",
-  github: "/dashboard/patientdata",
-  twitter: "/dashboard/news",
+  google: ["/dashboard/videos"],
+  twitter: ["/dashboard/patientdata"],
+  github: ["/dashboard/news", "/dashboard/patientdata"],
 };
 
 const useAuthRedirect = () => {
@@ -26,9 +26,9 @@ const useAuthRedirect = () => {
 
     if (
       router.pathname.startsWith("/dashboard") &&
-      router.pathname !== paths[loggedAccount.provider]
+      !paths[loggedAccount.provider]?.includes(router.pathname)
     ) {
-      router.push(paths[loggedAccount.provider]);
+      router.push(paths[loggedAccount.provider]?.[0]);
     }
   }, [isLoaded, isSignedIn, router, user]);
 };
