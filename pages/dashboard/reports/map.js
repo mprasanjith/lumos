@@ -1,10 +1,15 @@
 import useSWR from "swr";
+import ReactTooltip from "react-tooltip";
+import MapChart from "../../../components/charts/MapChart";
 import useAuthRedirect from "../../../hooks/useAuthRedirect";
+import { useState } from "react";
 
 const PatientData = () => {
   useAuthRedirect();
 
   const { data, error } = useSWR("/api/reports");
+
+  const [content, setContent] = useState("");
 
   if (error) return <div>Error</div>;
   if (!data) return <div>Loading...</div>;
@@ -21,25 +26,8 @@ const PatientData = () => {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8">
-          {data.map((item) => (
-            <div
-              key={item.file}
-              className="flex flex-col border rounded-lg p-4 md:p-6"
-            >
-              <h3 className="text-lg md:text-xl font-semibold mb-2">
-                {item.name}
-              </h3>
-              <a
-                download
-                href={`/downloads/${item.file}`}
-                className="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto"
-              >
-                Download
-              </a>
-            </div>
-          ))}
-        </div>
+        <MapChart people={data} setTooltipContent={setContent} />
+        <ReactTooltip>{content}</ReactTooltip>
       </div>
     </div>
   );

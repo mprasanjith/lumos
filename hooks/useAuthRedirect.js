@@ -4,7 +4,11 @@ import { useEffect } from "react";
 
 const paths = {
   google: ["/dashboard/videos", "/dashboard/reports/patient"],
-  microsoft: ["/dashboard/patientdata", "/dashboard/reports/patient"],
+  microsoft: [
+    "/dashboard/patientdata",
+    "/dashboard/reports/map",
+    "/dashboard/reports/patient",
+  ],
   github: [
     "/dashboard/news",
     "/dashboard/patientdata",

@@ -76,7 +76,7 @@ const Navigation = () => {
               Videos
             </a>
           </Link>
-          <Link href="/dashboard/reports/me">
+          <Link href="/dashboard/reports/patient?id=1">
             <a className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100">
               Reports
             </a>
@@ -94,7 +94,7 @@ const Navigation = () => {
               Datasets
             </a>
           </Link>
-          <Link href="/dashboard/reports">
+          <Link href="/dashboard/reports/map">
             <a
               href="#"
               className="text-gray-600 hover:text-indigo-500 active:text-indigo-700 text-lg font-semibold transition duration-100"
